@@ -116,7 +116,7 @@ namespace uml
             o << exp << std::endl;
             o.close();
 
-            std::vector<std::string> result = utils::exec(std::string("java -jar plantuml.jar " + tmp + "; rm " + tmp).c_str());
+            std::vector<std::string> result = utils::exec(std::string("java -jar plantuml-1.2021.16.jar " + tmp + "; rm " + tmp).c_str());
             for (unsigned int i = 0; i < result.size(); i++)
                 std::cout << result[i] << std::endl;
         }

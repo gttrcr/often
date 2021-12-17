@@ -5,6 +5,7 @@ sudo apt install -y texlive-fonts-extra
 sudo apt install -y texlive-latex-extra
 sudo apt install -y pandoc
 sudo apt install -y default-jre
+sudo apt install graphviz
 wget https://github.com/plantuml/plantuml/releases/download/v1.2021.16/plantuml-1.2021.16.jar
 
 
@@ -16,42 +17,3 @@ pip install matplotlib
 # From markdown to latex pdf using pandoc
 #pandoc --from=markdown --output=my.pdf markdown.md --variable=geometry:"margin=0.5cm, paperheight=421pt, paperwidth=595pt" --highlight-style=espresso
 pandoc --from=markdown --output=my.pdf markdown.md -V papersize:a4 --highlight-style=espresso --variable=geometry:"margin=0.5cm"
-
-import networkx as nx
-import matplotlib.pyplot as plt
-G = nx.Graph()
-G.add_edge('A', 'B', weight=4)
-G.add_edge('B', 'D', weight=2)
-G.add_edge('A', 'C', weight=3)
-G.add_edge('C', 'D', weight=4)
-nx.shortest_path(G, 'A', 'D', weight='weight')
-G = nx.petersen_graph()
-subax1 = plt.subplot(121)
-plt.savefig('ciao.png')
-
-import matplotlib.pyplot as plt
-G = nx.petersen_graph()
-subax1 = plt.subplot(121)
-nx.draw(G, with_labels=True, font_weight='bold')
-subax2 = plt.subplot(122)
-nx.draw_shell(G, nlist=[range(5, 10), range(5)], with_labels=True, font_weight='bold')
-plt.savefig('ciao.png')
-
-import matplotlib.pyplot as plt
-import networkx as nx
-pos = {0:[0, 0], 1:[300, 300], 2:[10, 100]}
-G = nx.cycle_graph(len(pos))
-plt.figure()
-nx.draw(G, pos)
-plt.savefig('test.png')
-
-import matplotlib.pyplot as plt
-import networkx as nx
-G = nx.Graph()
-G.add_nodes_from([
-    (4, {"color": "red"}),
-    (5, {"color": "green"}),
-])
-plt.figure()
-nx.draw(G)
-plt.savefig('test.png')
