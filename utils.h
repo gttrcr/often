@@ -4,6 +4,7 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
+#include <filesystem>
 
 namespace utils
 {
@@ -77,13 +78,12 @@ namespace utils
         return args;
     }
 
-    std::vector<std::string> ls_recursive(const std::filesystem::path &path, const std::string &exclude_ext)
+    std::vector<std::string> ls_recursive(const std::filesystem::path &path)
     {
         std::vector<std::string> ret;
-        for (const auto &p : std::filesystem::recursive_directory_iterator(path))
+        for (const auto& p : std::filesystem::recursive_directory_iterator(path))
             if (!std::filesystem::is_directory(p))
-                if (std::filesystem::path(p).extension() != exclude_ext)
-                    ret.push_back(p.path());
+                ret.push_back(p.path().u8string());
 
         return ret;
     }

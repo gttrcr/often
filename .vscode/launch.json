@@ -30,9 +30,7 @@
         ""
       ],
       "stopAtEntry": false,
-      "cwd": "u:/home/ikki/often",
       "environment": [],
-      "program": "u:/home/ikki/often/build/Debug/outDebug",
       "internalConsoleOptions": "openOnSessionStart",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",

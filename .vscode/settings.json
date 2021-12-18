@@ -57,7 +57,8 @@
     "thread": "cpp",
     "cinttypes": "cpp",
     "typeinfo": "cpp",
-    "semaphore": "cpp"
+    "semaphore": "cpp",
+    "regex": "cpp"
   },
   "C_Cpp_Runner.warnings": [
     "-Wall",
