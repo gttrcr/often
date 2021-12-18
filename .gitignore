@@ -3,9 +3,11 @@
 ################################################################################
 
 /Debug
+/Release
 /often.vcxproj.user
 /often.vcxproj.filters
 /often.vcxproj
 /often.sln
 /often
 /x64/Debug
+/x64/Release
