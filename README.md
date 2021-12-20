@@ -1,14 +1,17 @@
----often
-ciaociao
----
-
+[//]: # (oftenstart)
+[//]: # (include: yes)
+[//]: # (type: class)
+[//]: # (aggregation:) 
+[//]: # (composition:)
+[//]: # (superclass:)
+[//]: # (oftenstop)
 
 # OFTen
 
 ## Why OFTen?
-* Open
-* Free
-* Tidy
+* [[composition Open]]
+* [[composition Free]]
+* [[composition Tidy]]
 
 are the basic requirements for the evolution of knowledge.
 

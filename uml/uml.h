@@ -1,6 +1,9 @@
 #pragma once
 
 #include <vector>
+#include <algorithm>
+#include <cctype>
+#include <string>
 
 #include "uml_class.h"
 #include "uml_object.h"
@@ -29,9 +32,9 @@ namespace uml
         };
 
     private:
-        std::vector<uml::uml_class *> _classes;
-        std::vector<uml::uml_object *> _objects;
-        static inline std::map<output_format, std::string> _format_map = {{png, "png"},
+        std::vector<uml::uml_class*> _classes;
+        std::vector<uml::uml_object*> _objects;
+        static inline std::map<output_format, std::string> _format_map = { {png, "png"},
                                                                           {svg, "svg"},
                                                                           {eps, "eps"},
                                                                           {eps_text, "eps:text"},
@@ -43,10 +46,10 @@ namespace uml
                                                                           {atxt, "txt"},
                                                                           {utxt, "utxt"},
                                                                           {latex, "latex"},
-                                                                          {latex_no_preamble, "latex:nopreamble"}};
+                                                                          {latex_no_preamble, "latex:nopreamble"} };
         //{png, "braille"}};
 
-        std::string relation_string(uml::uml_class *c, uml::uml_class::rel_map *rel, uml::uml_relation::type t)
+        std::string relation_string(uml::uml_class* c, uml::uml_class::rel_map* rel, uml::uml_relation::type t)
         {
             std::string ret = "";
             for (uml::uml_class::rel_map::iterator it = rel->begin(); it != rel->end(); ++it)
@@ -77,12 +80,12 @@ namespace uml
         }
 
     public:
-        void add_class(uml::uml_class *c)
+        void add_class(uml::uml_class* c)
         {
             _classes.push_back(c);
         }
 
-        void add_object(uml::uml_object *o)
+        void add_object(uml::uml_object* o)
         {
             _objects.push_back(o);
         }
@@ -102,7 +105,7 @@ namespace uml
             //declaring relations
             for (unsigned int i = 0; i < _classes.size(); i++)
             {
-                uml::uml_class *c = _classes[i];
+                uml::uml_class* c = _classes[i];
                 exp += relation_string(c, c->extension(), uml::uml_relation::extension);
                 exp += relation_string(c, c->composition(), uml::uml_relation::composition);
                 exp += relation_string(c, c->aggregation(), uml::uml_relation::aggregation);
@@ -111,7 +114,14 @@ namespace uml
             exp += "@endml";
 
             std::string tmp = utils::create_tmp_file();
-            tmp = utils::split(tmp, '/')[2];
+#ifdef __linux__
+            //tmp = utils::split(tmp, '/')[2];
+            std::vector<std::string> tmp_v = utils::split(tmp, '/');
+#elif _WIN32
+            std::vector<std::string> tmp_v = utils::split(tmp, '\\');
+#endif
+            tmp = tmp_v[tmp_v.size() - 1];
+            
             std::ofstream o(tmp.c_str());
             o << exp << std::endl;
             o.close();
@@ -119,6 +129,21 @@ namespace uml
             std::vector<std::string> result = utils::exec(std::string("java -jar plantuml-1.2021.16.jar " + tmp + "; rm " + tmp).c_str());
             for (unsigned int i = 0; i < result.size(); i++)
                 std::cout << result[i] << std::endl;
+        }
+
+        uml::uml_class* get_class_by_name(std::string& name)
+        {
+            std::transform(name.begin(), name.end(), name.begin(), [](unsigned char c) { return std::tolower(c); });
+
+            for (unsigned int i = 0; i < _classes.size(); i++)
+            {
+                std::string tmp = _classes[i]->name();
+                std::transform(tmp.begin(), tmp.end(), tmp.begin(), [](unsigned char c) { return std::tolower(c); });
+                if (tmp == name)
+                    return _classes[i];
+            }
+
+            return nullptr;
         }
     };
 }

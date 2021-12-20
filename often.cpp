@@ -11,42 +11,132 @@
 #include "utils.h"
 #include "uml/uml.h"
 
-#define OFTEN_TAG "^---often\n((.|\n)*)---\n"
+#define OFTEN_TAG R"(^\[\/\/\]:[ ]+#[ ]+\((.*?)\))"
+#define TAG_START "[//]: # (oftenstart)"
+#define TAG_STOP "[//]: # (oftenstop)"
+#define TEXT_BETWEEN_BRACKETS R"(\[\[(.*?)\]\])"
 
 using map_type = std::map<std::string, std::filesystem::file_time_type>;
 
 void worker(map_type &file_dogwatch)
 {
-    uml::uml_page u;
+    //page
+    uml::uml_page p;
+
+    //classes
     for (map_type::iterator it = file_dogwatch.begin(); it != file_dogwatch.end(); ++it)
     {
         std::ifstream i(it->first);
         std::string content((std::istreambuf_iterator<char>(i)),
-                            std::istreambuf_iterator<char>());
+            std::istreambuf_iterator<char>());
         i.close();
 
-        const std::regex rgx(OFTEN_TAG, std::regex::ECMAScript | std::regex::extended);
+        uml::uml_class* c = nullptr;
         std::smatch res;
-
-        std::string::const_iterator searchStart(content.cbegin());
-        while (std::regex_search(searchStart, content.cend(), res, rgx))
+        std::regex rgx(OFTEN_TAG);
+        std::string::const_iterator search_start(content.cbegin());
+        std::map<std::string, std::vector<std::string>> markup_params;
+        bool start = false;
+        while (std::regex_search(search_start, content.cend(), res, rgx))
         {
-            std::cout << (searchStart == content.cbegin() ? "" : " ") << res[0];
-            searchStart = res.suffix().first;
-        }
-        std::cout << std::endl;
+            if (res[0] == TAG_STOP)
+                break;
 
-        //const std::regex rgx(OFTEN_TAG);
-        //std::cmatch match;
-        //std::string tag;
-        ////if (std::regex_search(content.begin(), content.end(), match, rgx))
-        ////    tag = match[1];
-        //
-        //std::stringstream result;
-        //std::regex_replace(std::ostream_iterator<char>(result), content.begin(), content.end(), rgx, "");
-        //content = result.str();
-        //std::cout << content << std::endl;
+            if (start)
+            {
+                std::vector<std::string> options = utils::split(res[1], ':', true);
+                markup_params[options[0]] = std::vector<std::string>(options.begin() + 1, options.end());
+            }
+
+            if (res[0] == TAG_START)
+                start = true;
+
+            search_start = res.suffix().first;
+        }
+
+        //TODO replace with same function
+        if (!markup_params.count("include") || (markup_params["include"].size() > 0 && markup_params["include"][0] == "yes"))
+        {
+            if (markup_params.count("name"))
+            {
+                std::string name = "";
+                for (unsigned int i = 0; i < markup_params["name"].size(); i++)
+                    name += markup_params["name"][i];
+                c = new uml::uml_class(name);
+            }
+            else
+                c = new uml::uml_class(std::filesystem::path(it->first).stem().u8string());
+        }
+
+        if (c != nullptr)
+            p.add_class(c);
     }
+
+    //relations
+    for (map_type::iterator it = file_dogwatch.begin(); it != file_dogwatch.end(); ++it)
+    {
+        std::ifstream i(it->first);
+        std::string content((std::istreambuf_iterator<char>(i)),
+            std::istreambuf_iterator<char>());
+        i.close();
+
+        //TODO replace with same function
+        std::smatch res;
+        std::regex rgx(OFTEN_TAG);
+        std::string::const_iterator search_start(content.cbegin());
+        std::map<std::string, std::vector<std::string>> markup_params;
+        bool start = false;
+        while (std::regex_search(search_start, content.cend(), res, rgx))
+        {
+            if (res[0] == TAG_STOP)
+                break;
+
+            if (start)
+            {
+                std::vector<std::string> options = utils::split(res[1], ':', true);
+                markup_params[options[0]] = std::vector<std::string>(options.begin() + 1, options.end());
+            }
+
+            if (res[0] == TAG_START)
+                start = true;
+
+            search_start = res.suffix().first;
+        }
+
+        std::string class_name = "";
+        if (!markup_params.count("include") || (markup_params["include"].size() > 0 && markup_params["include"][0] == "yes"))
+        {
+            if (markup_params.count("name"))
+            {
+                std::string name = "";
+                for (unsigned int i = 0; i < markup_params["name"].size(); i++)
+                    name += markup_params["name"][i];
+                class_name = name;
+            }
+            else
+                class_name = std::filesystem::path(it->first).stem().u8string();
+        }
+
+        uml::uml_class* c = p.get_class_by_name(class_name);
+        if (c != nullptr)
+        {
+            std::regex rgx(TEXT_BETWEEN_BRACKETS);
+            std::string::const_iterator search_start(content.cbegin());
+            std::map<std::string, std::vector<std::string>> markup_params;
+            bool start = false;
+            while (std::regex_search(search_start, content.cend(), res, rgx))
+            {
+                std::string str = res[1];
+                std::vector<std::string> split_by_space = utils::split(str, ' ', true);
+                c->add_composition(p.get_class_by_name(split_by_space[1]), new uml::uml_relation("prova", "card"));
+
+                search_start = res.suffix().first;
+            }
+        }
+    }
+
+    p.draw();
+    
     //std::string input = "pandoc --from=markdown --output=my.pdf $1 -V papersize:a4 --highlight-style=espresso --variable=geometry:\"margin=0.5cm\" --verbose";
     //input = utils::replace_string_with_string(input, "$1", i_md);
     //utils::exec(input.c_str());

@@ -17,7 +17,7 @@ namespace utils
         return std::string(tmpname);
     }
 
-    std::vector<std::string> exec(const char *command, bool check = false)
+    std::vector<std::string> exec(const char* command, bool check = false)
     {
         std::string tmpname = create_tmp_file();
         std::string scommand = command;
@@ -52,7 +52,7 @@ namespace utils
         return ret;
     }
 
-    std::map<std::string, std::vector<std::string>> get_args(int &argc, char *argv[])
+    std::map<std::string, std::vector<std::string>> get_args(int& argc, char* argv[])
     {
         std::map<std::string, std::vector<std::string>> args;
         std::string cmd;
@@ -78,7 +78,7 @@ namespace utils
         return args;
     }
 
-    std::vector<std::string> ls_recursive(const std::filesystem::path &path)
+    std::vector<std::string> ls_recursive(const std::filesystem::path& path)
     {
         std::vector<std::string> ret;
         for (const auto& p : std::filesystem::recursive_directory_iterator(path))
@@ -88,30 +88,37 @@ namespace utils
         return ret;
     }
 
-    std::vector<std::string> split(const std::string &s, const char delim)
+    std::string replace_string_with_string(const std::string& str, const std::string& replace, const std::string& replacement)
+    {
+        std::string ret(str);
+        if (replace.empty())
+            throw new std::exception();
+        size_t start_pos = 0;
+        unsigned int rep_length = replacement.length();
+        if (rep_length == 0)
+            rep_length++;
+        while ((start_pos = str.find(replace, start_pos)) != std::string::npos)
+        {
+            ret.replace(start_pos, replace.length(), replacement);
+            start_pos += rep_length;
+        }
+
+        return ret;
+    }
+
+    std::vector<std::string> split(const std::string& s, const char delim, const bool trim = false)
     {
         std::vector<std::string> result;
         std::stringstream ss(s);
         std::string item;
 
         while (getline(ss, item, delim))
-            result.push_back(item);
-
-        return result;
-    }
-
-    std::string replace_string_with_string(const std::string &str, const std::string &replace, const std::string &replacement)
-    {
-        std::string ret(str);
-        if (replace.empty())
-            throw new std::exception();
-        size_t start_pos = 0;
-        while ((start_pos = str.find(replace, start_pos)) != std::string::npos)
         {
-            ret.replace(start_pos, replace.length(), replacement);
-            start_pos += replacement.length();
+            if (trim)
+                item = utils::replace_string_with_string(item, " ", "");
+            result.push_back(item);
         }
 
-        return ret;
+        return result;
     }
 }
