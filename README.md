@@ -1,7 +1,3 @@
-% Proof of Existing Pandoc Feature
-% Kurt Pfeifle
-% May 25th, 2015
-
 [](oftenstart)
 [](include_yes)
 [](name_modified)
