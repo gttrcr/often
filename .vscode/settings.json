@@ -58,7 +58,9 @@
     "cinttypes": "cpp",
     "typeinfo": "cpp",
     "semaphore": "cpp",
-    "regex": "cpp"
+    "regex": "cpp",
+    "cstring": "cpp",
+    "bitset": "cpp"
   },
   "C_Cpp_Runner.warnings": [
     "-Wall",

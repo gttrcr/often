@@ -26,19 +26,20 @@ namespace uml
             _aggregation.clear();
         }
 
-        void add_extension(uml::uml_class *c, uml::uml_relation *r)
+        void add_relation(uml::uml_class *c, uml::uml_relation *r, uml::uml_relation::type type)
         {
-            _extension[c] = r;
-        }
-
-        void add_composition(uml::uml_class *c, uml::uml_relation *r)
-        {
-            _composition[c] = r;
-        }
-
-        void add_aggregation(uml::uml_class *c, uml::uml_relation *r)
-        {
-            _aggregation[c] = r;
+            switch (type)
+            {
+            case uml::uml_relation::type::extension:
+                _extension[c] = r;
+                break;
+            case uml::uml_relation::type::composition:
+                _composition[c] = r;
+                break;
+            case uml::uml_relation::type::aggregation:
+                _aggregation[c] = r;
+                break;
+            }
         }
 
         std::string name()

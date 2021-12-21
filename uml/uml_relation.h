@@ -28,8 +28,7 @@ namespace uml
             aggregation
         };
 
-        std::string
-        label()
+        std::string label()
         {
             return _label;
         }

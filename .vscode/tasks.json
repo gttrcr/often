@@ -6,11 +6,12 @@
             "command": "/usr/bin/g++",
             "args": [
                 "-fdiagnostics-color=always",
-                "-g",
+                //"-g",
                 "${file}",
                 "-std=c++17",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+                "${fileDirname}/${fileBasenameNoExtension}",
+                "-O3"
             ],
             "options": {
                 "cwd": "${fileDirname}"

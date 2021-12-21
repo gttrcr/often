@@ -6,7 +6,7 @@
       "type": "cppdbg",
       "request": "launch",
       "program": "${fileDirname}/${fileBasenameNoExtension}",
-      "args": [],
+      "args": ["-multiple"],
       "stopAtEntry": false,
       "cwd": "${fileDirname}",
       "environment": [],
@@ -21,27 +21,6 @@
       ],
       "preLaunchTask": "C/C++: g++ build active file",
       "miDebuggerPath": "/usr/bin/gdb"
-    },
-    {
-      "name": "C/C++ Runner: Debug Session",
-      "type": "cppdbg",
-      "request": "launch",
-      "args": [
-        ""
-      ],
-      "stopAtEntry": false,
-      "environment": [],
-      "internalConsoleOptions": "openOnSessionStart",
-      "MIMode": "gdb",
-      "miDebuggerPath": "gdb",
-      "externalConsole": false,
-      "setupCommands": [
-        {
-          "description": "Enable pretty-printing for gdb",
-          "text": "-enable-pretty-printing",
-          "ignoreFailures": true
-        }
-      ]
     }
   ]
 }

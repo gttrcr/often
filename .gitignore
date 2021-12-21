@@ -15,4 +15,5 @@
 *.png
 *.jar
 *.jar:Zone.Identifier
-
+*.pdf
+/main

@@ -1,17 +1,20 @@
-[//]: # (oftenstart)
-[//]: # (include: yes)
-[//]: # (type: class)
-[//]: # (aggregation:) 
-[//]: # (composition:)
-[//]: # (superclass:)
-[//]: # (oftenstop)
+% Proof of Existing Pandoc Feature
+% Kurt Pfeifle
+% May 25th, 2015
+
+[](oftenstart)
+[](include_yes)
+[](name_modified)
+[](type_class)
+[](superclass_)
+[](oftenstop)
 
 # OFTen
 
 ## Why OFTen?
-* [[composition Open]]
-* [[composition Free]]
-* [[composition Tidy]]
+* Open [](composition, open, composed by) test
+* Free [](composition, free, composed by) test 
+* Tidy [](composition, tidy, composed by) test
 
 are the basic requirements for the evolution of knowledge.
 
