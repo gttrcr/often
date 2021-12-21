@@ -19,9 +19,9 @@ Under construction
 
 ## What OFTen will do?
 * [x] uml generation
-* [ ] markdown interpretation
-* [ ] uml class diagram of paper
-* [ ] dynamic uml class diagram
+* [x] markdown interpretation
+* [x] uml class diagram of paper
+* [x] dynamic uml class diagram
 * [ ] multi-file management
 * [ ] elegant markdown to latek
 * [ ] integration with mathematica
