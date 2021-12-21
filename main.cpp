@@ -7,7 +7,7 @@ int show_help()
     return 0;
 }
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
     //parse all args
     std::map<std::string, std::vector<std::string>> args = utils::get_args(argc, argv);
@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 
     if (all_files.size() != all_md_files.size())
         std::cout << "Maybe you weren't careful!" << std::endl
-                  << "It is preferable to use a folder that contains only the files you want to render" << std::endl;
+        << "It is preferable to use a folder that contains only the files you want to render" << std::endl;
 
     bool parallel = args.count("-p") || args.count("--parallel");
     bool produce_single_latex = args.count("-single");

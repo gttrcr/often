@@ -20,7 +20,7 @@ namespace often
     using fs_t = std::map<std::string, std::filesystem::file_time_type>;
     using file_class_t = std::map<std::string, std::string>;
 
-    file_class_t class_name_in_file(const fs_t &file_dogwatch)
+    file_class_t class_name_in_file(const fs_t& file_dogwatch)
     {
         file_class_t ret;
 
@@ -28,10 +28,10 @@ namespace often
         {
             std::ifstream i(it->first);
             std::string content((std::istreambuf_iterator<char>(i)),
-                                std::istreambuf_iterator<char>());
+                std::istreambuf_iterator<char>());
             i.close();
 
-            uml::uml_class *c = nullptr;
+            uml::uml_class* c = nullptr;
             std::smatch res;
             std::regex rgx(TAG_OFTEN);
             std::string::const_iterator search_start(content.cbegin());
@@ -44,7 +44,7 @@ namespace often
 
                 if (start)
                 {
-                    std::vector<std::string> options = utils::split(res[1], ':', true);
+                    std::vector<std::string> options = utils::split(res[1], '_', true);
                     markup_params[options[0]] = std::vector<std::string>(options.begin() + 1, options.end());
                 }
 
@@ -72,7 +72,7 @@ namespace often
     }
 
     //this is the worker of often, can be executed once (-s, --shot) or parallel (-p, --parallel)
-    void worker(const fs_t &file_dogwatch, const bool produce_single_latex, const bool produce_multiple_latex)
+    void worker(const fs_t& file_dogwatch, const bool produce_single_latex, const bool produce_multiple_latex)
     {
         //create the uml page
         uml::uml_page p;
@@ -85,10 +85,10 @@ namespace often
         {
             std::ifstream i(it->first);
             std::string content((std::istreambuf_iterator<char>(i)),
-                                std::istreambuf_iterator<char>());
+                std::istreambuf_iterator<char>());
             i.close();
 
-            uml::uml_class *c = p.get_class_by_name(it->second);
+            uml::uml_class* c = p.get_class_by_name(it->second);
             if (c != nullptr)
             {
                 std::regex rgx(TAG_OFTEN);
@@ -102,7 +102,7 @@ namespace often
                         often_space = true;
                     if (!often_space)
                     {
-                        std::vector<std::string> split_by_space = utils::split(str, ',', true);
+                        std::vector<std::string> split_by_space = utils::split(str, '_', true);
                         uml::uml_relation::type relation_type;
                         if (split_by_space.size() > 0)
                         {
@@ -117,18 +117,18 @@ namespace often
                         }
                         if (split_by_space.size() > 1)
                         {
-                            std::string label = split_by_space.size() > 2 ? split_by_space[2] : "";
+                            std::string label = split_by_space.size() > 2 ? utils::replace_string_with_string(split_by_space[2], "'", " ") : "";
                             std::string cardinality_start = split_by_space.size() > 3 ? split_by_space[3] : "";
                             std::string cardinality_stop = split_by_space.size() > 4 ? split_by_space[4] : "";
                             bool dotted = split_by_space.size() > 5 ? split_by_space[5] == "1" : false;
 
-                            uml::uml_relation *r = new uml::uml_relation(label, cardinality_start, cardinality_stop, dotted);
-                            uml::uml_class *t_class = p.get_class_by_name(split_by_space[1]);
+                            uml::uml_relation* r = new uml::uml_relation(label, cardinality_start, cardinality_stop, dotted);
+                            uml::uml_class* t_class = p.get_class_by_name(split_by_space[1]);
                             if (t_class != nullptr)
                                 c->add_relation(t_class, r, relation_type);
                             else
                             {
-                                uml::uml_object *t_obj = p.get_object_by_name(split_by_space[1]);
+                                uml::uml_object* t_obj = p.get_object_by_name(split_by_space[1]);
                                 if (t_obj != nullptr)
                                     c->add_relation(t_class, r, relation_type);
                             }
@@ -153,7 +153,7 @@ namespace often
         p.draw(uml::uml_page::output_format::png);
     }
 
-    unsigned int exec(const std::vector<std::string> &all_md_files, const bool parallel, const bool produce_single_latex, const bool produce_multiple_latex)
+    unsigned int exec(const std::vector<std::string>& all_md_files, const bool parallel, const bool produce_single_latex, const bool produce_multiple_latex)
     {
         fs_t file_dogwatch;
         for (unsigned int i = 0; i < all_md_files.size(); i++)

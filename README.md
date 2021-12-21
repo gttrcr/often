@@ -8,9 +8,9 @@
 # OFTen
 
 ## Why OFTen?
-* Open [](composition, open, composed by) test
-* Free [](composition, free, composed by) test 
-* Tidy [](composition, tidy, composed by) test
+* Open [](composition_open_composed'by) test
+* Free [](composition_free_composed'by) test 
+* Tidy [](composition_tidy_composed'by) test
 
 are the basic requirements for the evolution of knowledge.
 
@@ -30,5 +30,5 @@ Under construction
 
 ## Build OFTen
 ```
-g++ often.cpp -o often -O3 -std=c++17
+g++ main.cpp -o often -O3 -std=c++17
 ```

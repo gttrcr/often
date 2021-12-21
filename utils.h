@@ -56,13 +56,13 @@ namespace utils
     {
         std::map<std::string, std::vector<std::string>> args;
         std::string cmd;
-        for (unsigned int i = 1; i < argc; i++)
+        for (unsigned int i = 1; i < (unsigned int)argc; i++)
             if (argv[i][0] == '-')
             {
                 cmd = argv[i];
                 if (!args.count(cmd))
                     args[cmd] = {};
-                while (i + 1 < argc)
+                while (i + 1 < (unsigned int)argc)
                 {
                     i++;
                     if (argv[i][0] != '-')
@@ -94,7 +94,7 @@ namespace utils
         if (replace.empty())
             throw new std::exception();
         size_t start_pos = 0;
-        unsigned int rep_length = replacement.length();
+        size_t rep_length = replacement.length();
         if (rep_length == 0)
             rep_length++;
         while ((start_pos = str.find(replace, start_pos)) != std::string::npos)
