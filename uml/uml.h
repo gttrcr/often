@@ -154,7 +154,7 @@ namespace uml
             std::transform(tmp1.begin(), tmp1.end(), tmp1.begin(), [](unsigned char c)
                            { return std::tolower(c); });
 
-            for (unsigned int i = 0; i < _classes.size(); i++)
+            for (unsigned int i = 0; i < _objects.size(); i++)
             {
                 std::string tmp2 = _objects[i]->name();
                 std::transform(tmp2.begin(), tmp2.end(), tmp2.begin(), [](unsigned char c)

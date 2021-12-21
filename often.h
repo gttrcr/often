@@ -44,7 +44,7 @@ namespace often
 
                 if (start)
                 {
-                    std::vector<std::string> options = utils::split(res[1], '_', true);
+                    std::vector<std::string> options = utils::split(res[1], ':', true);
                     markup_params[options[0]] = std::vector<std::string>(options.begin() + 1, options.end());
                 }
 
@@ -102,7 +102,7 @@ namespace often
                         often_space = true;
                     if (!often_space)
                     {
-                        std::vector<std::string> split_by_space = utils::split(str, '_', true);
+                        std::vector<std::string> split_by_space = utils::split(str, ',', true);
                         uml::uml_relation::type relation_type;
                         if (split_by_space.size() > 0)
                         {
@@ -117,7 +117,7 @@ namespace often
                         }
                         if (split_by_space.size() > 1)
                         {
-                            std::string label = split_by_space.size() > 2 ? utils::replace_string_with_string(split_by_space[2], "'", " ") : "";
+                            std::string label = split_by_space.size() > 2 ? utils::replace_string_with_string(split_by_space[2], "_", " ") : "";
                             std::string cardinality_start = split_by_space.size() > 3 ? split_by_space[3] : "";
                             std::string cardinality_stop = split_by_space.size() > 4 ? split_by_space[4] : "";
                             bool dotted = split_by_space.size() > 5 ? split_by_space[5] == "1" : false;

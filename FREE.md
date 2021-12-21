@@ -1,7 +1,7 @@
-[//]: # (oftenstart)
-[//]: # (include: yes)
-[//]: # (type: class)
-[//]: # (superclass:)
-[//]: # (oftenstop)
+[](oftenstart)
+[](include:yes)
+[](type:class)
+[](superclass:)
+[](oftenstop)
 
 # FREE

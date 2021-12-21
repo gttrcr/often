@@ -1,16 +1,16 @@
 [](oftenstart)
-[](include_yes)
-[](name_modified)
-[](type_class)
-[](superclass_)
+[](include:yes)
+[](name:root)
+[](type:class)
+[](superclass:)
 [](oftenstop)
 
 # OFTen
 
 ## Why OFTen?
-* Open [](composition_open_composed'by) test
-* Free [](composition_free_composed'by) test 
-* Tidy [](composition_tidy_composed'by) test
+* Open [](composition,open,composed_by) test
+* Free [](composition,free,composed_by) test 
+* Tidy [](composition,tidy,composed_by) test
 
 are the basic requirements for the evolution of knowledge.
 

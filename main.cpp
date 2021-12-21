@@ -2,7 +2,12 @@
 
 int show_help()
 {
-    std::cout << "TODO" << std::endl;
+    std::cout << "-h help" << std::endl;
+    std::cout << "-p --parallel parallel execution" << std::endl;
+    std::cout << "-s --shot one-shot execution (default: -s)" << std::endl;
+    std::cout << "-i input folder (default: execution folder)" << std::endl;
+    std::cout << "-single create a single TeX pdf (default: option disabled)" << std::endl;
+    std::cout << "-multiple create a TeX pdf for every .md file (default: option disabled)" << std::endl;
 
     return 0;
 }
