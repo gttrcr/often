@@ -2,7 +2,7 @@
 
 namespace uml
 {
-    class uml_object
+    class uml_object : public uml_general
     {
     private:
         std::string _name;
@@ -16,6 +16,16 @@ namespace uml
         std::string name()
         {
             return _name;
+        }
+
+        std::string command()
+        {
+            return "";
+        }
+
+        std::vector<std::string> spec()
+        {
+            return {};
         }
     };
 }
